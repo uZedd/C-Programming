@@ -51,6 +51,9 @@ int main()
                 }
             }
             while (grade < -1 || grade > 5);
+        } else
+        {
+            printf("Invalid student!\n");
         }
     }
     while (student != 0);

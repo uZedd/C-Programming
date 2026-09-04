@@ -23,6 +23,8 @@ int main() {
     } while (answer != 3);
 
     printf("Exiting...");
+
+    return 0;
 }
 
 void roll_d6() {

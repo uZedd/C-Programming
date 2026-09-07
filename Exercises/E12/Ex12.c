@@ -6,20 +6,26 @@ int main() {
     char string[100];
     char word[100];
 
-    printf("Input the haystack string: ");
-    fgets(string, sizeof(string), stdin);
-    string[strlen(string) - 1] = '\0';
-    printf("Input the needle string: ");
-    fgets(word, sizeof(word), stdin);
-    word[strlen(word) - 1] = '\0';
+    do {
+        printf("Input the haystack string: ");
+        fgets(string, sizeof(string), stdin);
+        string[strlen(string) - 1] = '\0';
+        printf("Input the needle string: ");
+        fgets(word, sizeof(word), stdin);
+        word[strlen(word) - 1] = '\0';
 
+        if (strcmp(word, "stop") != 0) {
+            int value = count_words(string, word);
+            if (value == 0) {
+                printf("No matches were found.\n");
+            } else {
+                printf("%d matches were found.\n", value);
+            }
+        }
+    } while (strcmp(word, "stop") != 0);
 
-    int value = count_words(string, word);
-    if (value == 0) {
-        printf("No matches were found.");
-    } else {
-        printf("%d matches were found.", value);
-    }
+    return 0;
+
 }
 
 int count_words(const char *str, const char *word) {

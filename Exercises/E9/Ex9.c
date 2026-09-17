@@ -27,9 +27,9 @@ int main() {
             }
         } else {
             result = find_first(numbers, answer);
-            if (result == -1) {
+            if (result == -1 && answer != 0) {
                 printf("Number wasn't found.\n");
-            } else {
+            } else if (answer != 0) {
                 printf("The first index of this number is: %d\n", result);
             }
         }

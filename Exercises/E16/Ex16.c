@@ -9,24 +9,34 @@ typedef struct node {
 
 int main() {
     int answerlength = 10;
+    int number;
     char answer[answerlength];
     nnode *head = NULL;
     nnode *tail = NULL;
 
 
+
+
     do {
+        char extra;
         nnode *num;
-        num = (nnode *) malloc(sizeof(nnode));
-        num->next = NULL;
+
         printf("Give number: ");
         fgets(answer, answerlength, stdin);
         if (answer[strlen(answer) - 1] == '\n') {
             answer[strlen(answer) - 1] = '\0';
         }
         if (strcmp(answer, "end") != 0) {
-            if (sscanf(answer, "%d", &num->number) != 1) {
+            if (sscanf(answer, "%d%c", &number, &extra) != 1) {
                 printf("invalid input.\n");
             } else {
+                num = (nnode *) malloc(sizeof(nnode));
+                if (num == NULL) {
+                    printf("out of memory.\n");
+                    break;
+                }
+                num->number = number;
+                num->next = NULL;
                 if (head == NULL) {
                     head = num;
                 } else {
@@ -39,12 +49,12 @@ int main() {
 
     nnode *temp;
     temp = head;
-    do {
+    while (temp != NULL){
         printf("%d\n", temp->number);
         nnode *freeable = temp;
         temp = temp->next;
         free(freeable);
-    } while (temp != NULL);
+    }
 
     return 0;
 }

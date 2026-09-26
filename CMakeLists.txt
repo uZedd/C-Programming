@@ -16,7 +16,7 @@ add_executable(Ex10 Exercises/E10/Ex10.c)
 add_executable(Ex11 Exercises/E11/Ex11.c)
 add_executable(Ex12 Exercises/E12/Ex12.c)
 add_executable(Ex13 Exercises/E13/Ex13.c)
-
-
+add_executable(Ex14 Exercises/E14/Ex14.c)
+add_executable(Ex15 Exercises/E15/Ex15.c)
 add_executable(Ex16 Exercises/E16/Ex16.c)
 add_executable(Test Moodle\ stuff/testing.c)

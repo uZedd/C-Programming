@@ -6,11 +6,14 @@ int main()
 {
     int size = 100;
     int linecount = 0;
-    char lines[100][81];
+    char lines[100][82];
     char filename[size];
 
     printf("Give file name: ");
-    fgets(filename, size, stdin);
+    if (fgets(filename, size, stdin) == NULL )
+    {
+        fprintf(stderr, "failed to fetch the filename.\n");
+    }
     if (filename[strlen(filename) - 1] == '\n')
     {
         filename[strlen(filename) - 1] = '\0';
@@ -26,7 +29,7 @@ int main()
     {
         while (!feof(f) && linecount < size)
         {
-            if (fgets(lines[linecount], 81, f) != NULL)
+            if (fgets(lines[linecount], 82, f) != NULL)
             {
                 if (lines[linecount][strlen(lines[linecount]) - 1] == '\n')
                 {

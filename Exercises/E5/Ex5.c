@@ -1,49 +1,73 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int main () {
-    int read_range(int min, int max);
+int read_range(int min, int max);
+
+int main()
+{
     int choise;
     int number;
     int min = 1;
     int max = 6;
 
-    do {
+    for (int i = 0; i < 3; i++)
+    {
+        printf("Roll a die and enter your result.\n");
         number = read_range(min, max);
-        if (number < max) {
+
+        if (number < max)
+        {
             choise = number + 1;
-        } else {
+        }
+        else
+        {
             choise = number;
         }
-        printf("Your choise was %d, I chose %d.\n", number, choise);
-        if (choise > number) {
-            printf("I won, let's play again.\n");
+
+        printf("Your choice was %d, I chose %d.\n", number, choise);
+
+        if (choise > number)
+        {
+            printf("I won!\n");
         }
-    } while (choise > number);
+        else
+        {
+            printf("It was a tie!\n");
+        }
+    }
 
-    printf("It was a tie, thank you for playing.");
-
-
+    printf("I am too good, thank you for playing.\n");
 }
 
-int read_range(int min, int max) {
+int read_range(int min, int max)
+{
     int number;
     int valid;
     char extra;
-    printf("Enter a number between 1 and 6: ");
+    printf("Enter a number between %d and %d: ", min, max);
 
-    do {
+    do
+    {
         valid = scanf("%d%c", &number, &extra);
-        if ((valid != 2) || extra != '\n' || (number < min) || (number > max)) {
+        if (valid == EOF)
+        {
+            printf("Input ended.\n");
+            exit(1);
+        }
+        if ((valid != 2) || extra != '\n' || (number < min) || (number > max))
+        {
             printf("Invalid number/input, try again: ");
 
-            if (extra != '\n') {
-                while (getchar() != '\n');
+            if (valid != 2 || extra != '\n')
+            {
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF)
+                {
+                }
             }
-
-
         }
-    } while (number > max || extra != '\n' || number < min || valid !=2);
+    }
+    while (valid != 2 || number > max || extra != '\n' || number < min);
 
     return number;
-
 }

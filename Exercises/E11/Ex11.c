@@ -4,12 +4,22 @@
 int main() {
     int replace_char(char *s, const char *r);
     char string[100];
-    char characters[3];
+    char characters[100];
     printf("Enter the modifiable word/sentence: ");
-    fgets(string, sizeof(string), stdin);
+    if (fgets(string, sizeof(string), stdin) == NULL) {
+        return 1;
+    }
+    if (string[strlen(string) - 1] == '\n') {
+        string[strlen(string) - 1] = '\0';
+    }
 
     printf("Enter the character to modify and the character to modify it with: ");
-    fgets(characters, sizeof(characters), stdin);
+    if (fgets(characters, sizeof(string), stdin) == NULL) {
+        return 1;
+    }
+    if (characters[strlen(characters) - 1] == '\n') {
+        characters[strlen(characters) - 1] = '\0';
+    }
 
     int returning = replace_char(string, characters);
 
@@ -26,6 +36,9 @@ int main() {
 }
 
 int replace_char(char *s, const char *r) {
+    if (strlen(r) != 2) {
+        return 0;
+    }
     int counter = 0;
     int index = 0;
 

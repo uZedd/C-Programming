@@ -18,9 +18,10 @@ typedef struct room
 } Room;
 
 
-int input(char* string);
+int input(const char* string, char* answer, size_t size);
 void fix_string(char* string);
 
+void print_temperatures(const Room* room);
 void free_rooms(Room* head);
 Room* read_csv(const char* filename);
 Room* find_room(Room* head, const char* name);
@@ -111,6 +112,37 @@ int load_temperatures(const char* filename, Room* room)
     return 1;
 }
 
+
+void print_temperatures(const Room* room)
+{
+    printf("\n%s\n", room->name);
+
+    Temperature* tail = room->temperatures;
+
+    while (tail != NULL)
+    {
+        printf("%5.1f ", tail->value);
+
+        if (tail->value < 0 || tail->value > 30)
+        {
+            printf("X");
+        }
+        else
+        {
+            int dashes = (int)(tail->value * 2);
+
+            for (int i = 0; i < dashes; i++)
+            {
+                printf("-");
+            }
+        }
+
+        printf("\n");
+        tail = tail->next;
+    }
+}
+
+
 Room* read_csv(const char* filename)
 {
     Room* head = NULL;
@@ -191,18 +223,38 @@ void free_rooms(Room* head)
 
 
 // Function that takes a query message, prints it for the user and then takes their input
-int input(char* string, char* answer)
+int input(const char* string, char* answer, size_t size)
 {
     printf("%s\n", string);
 
-    char fetch[100];
-    if (fgets(fetch, 100, stdin) == NULL)
+    if (size < 2 || fgets(answer, size, stdin) == NULL)
     {
         return 0;
     }
-    fix_string(fetch);
 
-    answer = fetch;
+    if (strchr(answer, '\n') == NULL)
+    {
+        int ch = getchar();
+
+        if (ch != '\n' && ch != EOF)
+        {
+            while (ch != '\n' && ch != EOF)
+            {
+                ch = getchar();
+            }
+
+            printf("Input too long.\n");
+            return 0;
+        }
+    }
+
+    fix_string(answer);
+
+    if (answer[0] == '\0')
+    {
+        printf("Input cannot be empty.\n");
+        return 0;
+    }
 
     return 1;
 }
@@ -211,11 +263,7 @@ int input(char* string, char* answer)
 // Function to fix char arrays mainly fetched with fgets. Deletes the newline and inserts a null operator to the end.
 void fix_string(char* string)
 {
-    if (string[strlen(string) - 1] == '\n')
-    {
-        string[strlen(string) - 1] = '\0';
-    }
-    return;
+    string[strcspn(string, "\r\n")] = '\0';
 }
 
 

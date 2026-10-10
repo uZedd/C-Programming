@@ -28,10 +28,11 @@ bool read_positive(int *x) {
 
 
     valid = scanf("%d%c", &temp, &extra);
-    if (valid != 2 || extra != '\n' || temp < 0) {
+    if (valid != 2 || extra != '\n' || temp <= 0) {
         printf("Invalid input\n");
         if (valid != 2 || extra != '\n') {
-            while (getchar() != '\n');
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
         }
         return false;
     } else {

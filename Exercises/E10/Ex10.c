@@ -8,7 +8,10 @@ int main() {
 
     do {
         printf("Enter a string: ");
-        fgets(string, 100, stdin);
+        if (fgets(string, 100, stdin) == NULL)
+        {
+            return 0;
+        }
         if (string[strlen(string) - 1] == '\n') {
             string[strlen(string) - 1] = '\0';
         }

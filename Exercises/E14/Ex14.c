@@ -10,9 +10,10 @@ int main()
     char filename[size];
 
     printf("Give file name: ");
-    if (fgets(filename, size, stdin) == NULL )
+    if (fgets(filename, size, stdin) == NULL)
     {
-        fprintf(stderr, "failed to fetch the filename.\n");
+        fprintf(stderr, "Failed to fetch the filename.\n");
+        return 1;
     }
     if (filename[strlen(filename) - 1] == '\n')
     {
@@ -27,18 +28,10 @@ int main()
     }
     else
     {
-        while (!feof(f) && linecount < size)
+        while (linecount < size && fgets(lines[linecount], sizeof(lines[linecount]), f) != NULL)
         {
-            if (fgets(lines[linecount], 82, f) != NULL)
-            {
-                if (lines[linecount][strlen(lines[linecount]) - 1] == '\n')
-                {
-                    lines[linecount][strlen(lines[linecount]) - 1] = '\0';
-                }
-
-
-                linecount++;
-            }
+            lines[linecount][strcspn(lines[linecount], "\n")] = '\0';
+            linecount++;
         }
         fclose(f);
 
@@ -46,7 +39,7 @@ int main()
         {
             for (int j = 0; j < strlen(lines[i]); j++)
             {
-                lines[i][j] = toupper(lines[i][j]);
+                lines[i][j] = toupper((unsigned char)lines[i][j]);
             }
         }
 

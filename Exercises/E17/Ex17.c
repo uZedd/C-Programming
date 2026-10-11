@@ -6,17 +6,13 @@
 
 bool passwordize(char* password, int password_capacity, const char* word);
 
-
 int main()
 {
     srand((unsigned int)time(NULL));
 
-
     int word_capacity = 32;
-
     char word[word_capacity];
     word[0] = '\0';
-
 
     while (strcmp(word, "stop") != 0)
     {
@@ -47,9 +43,7 @@ int main()
         if (strcmp(word, "stop") != 0 && strlen(word) > 0)
         {
             int word_size = strlen(word);
-
             int password_size = word_size * 2 + 2;
-
             char password[password_size];
 
             if (passwordize(password, password_size, word) == false)
@@ -65,7 +59,7 @@ int main()
     return 0;
 }
 
-// password generator function, used the range of 33-96 for the random ASCII characters.
+// Password generator using printable ASCII characters in the range 32-126.
 bool passwordize(char* password, const int password_capacity, const char* word)
 {
     int password_index = 0;
@@ -77,14 +71,16 @@ bool passwordize(char* password, const int password_capacity, const char* word)
 
     while (*word != '\0')
     {
-        password[password_index] = (char)(33 + rand() % 64);
+        password[password_index] = (char)(32 + rand() % 95);
         password_index++;
         password[password_index] = *word;
         password_index++;
         word++;
     }
-    password[password_index] = (char)(33 + rand() % 64);
+
+    password[password_index] = (char)(32 + rand() % 95);
     password_index++;
     password[password_index] = '\0';
+
     return true;
 }

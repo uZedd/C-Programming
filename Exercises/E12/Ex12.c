@@ -8,20 +8,18 @@ int main() {
 
     do {
         printf("Input the haystack string: ");
-        fgets(string, sizeof(string), stdin);
-        string[strlen(string) - 1] = '\0';
-        printf("Input the needle string: ");
-        fgets(word, sizeof(word), stdin);
-        word[strlen(word) - 1] = '\0';
-
-        if (strcmp(word, "stop") != 0) {
-            int value = count_words(string, word);
-            if (value == 0) {
-                printf("No matches were found.\n");
-            } else {
-                printf("%d matches were found.\n", value);
-            }
+        if (fgets(string, sizeof(string), stdin) == NULL) {
+            return 0;
         }
+        string[strcspn(string, "\n")] = '\0';
+        printf("Input the needle string: ");
+        if (fgets(word, sizeof(word), stdin) == NULL) {
+            return 0;
+        }
+        word[strcspn(word, "\n")] = '\0';
+
+        int value = count_words(string, word);
+        printf("%d matches were found.\n", value);
     } while (strcmp(word, "stop") != 0);
 
     return 0;

@@ -2,7 +2,6 @@
 #include <string.h>
 
 int main() {
-    int char_size = 2;
     int name_size = 100;
     int count = 0;
     char file_name[name_size];
@@ -12,7 +11,9 @@ int main() {
 
     printf("Enter file name: ");
 
-    fgets(file_name, name_size, stdin);
+    if (fgets(file_name, name_size, stdin) == NULL) {
+        return 1;
+    }
     if (file_name[strlen(file_name) - 1] == '\n') {
         file_name[strlen(file_name) - 1] = '\0';
     }
@@ -20,25 +21,24 @@ int main() {
     FILE *my_file;
     my_file = fopen(file_name, "r");
     if (my_file == NULL) {
-        fprintf(stderr, "Unable to open the file.\n");
+        fprintf(stderr, "Unable to open file '%s'.\n", file_name);
+        return 1;
     } else {
-        while (!feof(my_file)) {
-            if (fscanf(my_file, "%d", &current_num) == 1) {
-                if (count == 0 || current_num > high) {
-                    high = current_num;
-                }
-                if (count == 0 || current_num < low) {
-                    low = current_num;
-                }
-                count++;
-            } else {
-                if (getc(my_file) == EOF) {
-                    break;
-                }
+        while (fscanf(my_file, "%d", &current_num) == 1) {
+            if (count == 0 || current_num > high) {
+                high = current_num;
             }
+            if (count == 0 || current_num < low) {
+                low = current_num;
+            }
+            count++;
         }
         fclose(my_file);
-        printf("%d numbers found. Highest was %d, lowest was %d.", count, high, low);
+        if (count > 0) {
+            printf("%d numbers found. Highest was %d, lowest was %d.\n", count, high, low);
+        } else {
+            printf("0 numbers found.\n");
+        }
     }
     return 0;
 }

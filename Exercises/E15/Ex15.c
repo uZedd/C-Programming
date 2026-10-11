@@ -19,7 +19,8 @@ int main()
     printf("Give file name: ");
     if (fgets(filename, size, stdin) == NULL)
     {
-        fprintf(stderr, "Error fetching filename with fgets.");
+        fprintf(stderr, "Error fetching filename with fgets.\n");
+        return 1;
     }
     if (filename[strlen(filename) - 1] == '\n')
     {
@@ -34,15 +35,12 @@ int main()
     } else
     {
         char row[128];
-        while (!feof(f) && itemcount < 40)
+        while (itemcount < 40 && fgets(row, sizeof(row), f) != NULL)
         {
-            if (fgets(row, sizeof(row), f) != NULL)
+            int read = sscanf(row, "%49[^;]; %lf", items[itemcount].name, &items[itemcount].price);
+            if (read == 2)
             {
-                int read = sscanf(row, "%49[^;]; %lf", items[itemcount].name, &items[itemcount].price);
-                if (read == 2)
-                {
-                    itemcount++;
-                }
+                itemcount++;
             }
         }
         fclose(f);
